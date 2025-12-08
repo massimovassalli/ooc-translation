@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Challenges to Translation in Microfluidics and Organ-on-Chip</title>
+  <meta name="description" content="Workshop on challenges and solutions in microfluidics and organ-on-chip technologies — Glasgow, 27 February 2026." />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #006bff;
+      --accent-dark: #004bb3;
+      --bg: #050816;
+      --bg-soft: #0c1020;
+      --text-main: #f5f5f7;
+      --text-muted: #c2c2c7;
+      --card-bg: rgba(9, 13, 35, 0.9);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.6);
+      --radius-xl: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #192a56 0%, #050816 45%, #000000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      overflow: hidden;
+      padding: 4rem 0 3rem;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--hero-bg-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: brightness(0.45);
+      transform: scale(1.02);
+      transition: background-image 1s ease-out;
+      z-index: -2;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(0, 107, 255, 0.45), transparent 55%),
+                  linear-gradient(to bottom, rgba(0, 0, 0, 0.55), #050816);
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.3fr);
+      gap: 2rem;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    @media (max-width: 880px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #52ffe0);
+      box-shadow: 0 0 12px #52ffe0;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 3vw + 1.4rem, 3.15rem);
+      line-height: 1.1;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+      font-size: 0.92rem;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(16px);
+    }
+
+    .meta-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      padding: 0.8rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 16px 45px rgba(0, 107, 255, 0.5);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 60px rgba(0, 107, 255, 0.7);
+      filter: brightness(1.05);
+    }
+
+    .btn-ghost {
+      padding: 0.8rem 1.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(5, 8, 22, 0.7);
+      color: var(--text-main);
+      font-weight: 500;
+      font-size: 0.93rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      backdrop-filter: blur(16px);
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(16, 24, 60, 0.9);
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+
+    .hero-footnote {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(22px);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem 1.6rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 270px;
+    }
+
+    .hero-card h2 {
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin: 0 0 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card p {
+      margin: 0 0 1.2rem;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.1rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .hero-card-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-card-bullet {
+      margin-top: 0.35rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #52ffe0;
+      flex-shrink: 0;
+    }
+
+    .hero-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .deadline-pill {
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-weight: 500;
+      color: #f7f7f7;
+    }
+
+    /* MAIN SECTIONS */
+
+    main {
+      padding: 1rem 0 3.5rem;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), #02040a);
+    }
+
+    section {
+      padding: 2.75rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 1.8rem;
+    }
+
+    .section-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin: 0 0 0.65rem;
+    }
+
+    .section-lead {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 40rem;
+    }
+
+    /* ABOUT */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.1fr);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      .about-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .about-text {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+    }
+
+    .about-text p {
+      margin-top: 0;
+      margin-bottom: 0.9rem;
+    }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+
+    .chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(10, 14, 40, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .about-card {
+      background: radial-gradient(circle at top left, rgba(82, 255, 224, 0.1), transparent 60%),
+                  rgba(5, 9, 30, 0.98);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem 1.4rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .about-card h3 {
+      font-size: 0.98rem;
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--text-muted);
+    }
+
+    .about-card dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      row-gap: 0.4rem;
+      column-gap: 0.6rem;
+    }
+
+    .about-card dt {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .about-card dd {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* SPEAKERS */
+
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .speaker-card {
+      background: rgba(6, 10, 32, 0.96);
+      border-radius: 18px;
+      padding: 1.4rem 1.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .speaker-tag {
+      align-self: flex-start;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .speaker-name {
+      margin: 0.2rem 0 0.1rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .speaker-affiliation {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .speaker-link {
+      margin-top: 0.4rem;
+      font-size: 0.82rem;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      color: #cfe4ff;
+      align-self: flex-start;
+    }
+
+    .speaker-link:hover {
+      color: #ffffff;
+    }
+
+    .speakers-note {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* REGISTRATION */
+
+    .registration {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: radial-gradient(circle at center, rgba(0, 107, 255, 0.14), transparent 55%);
+    }
+
+    .registration-row {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.1fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 880px) {
+      .registration-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .registration-box {
+      background: rgba(5, 9, 30, 0.98);
+      border-radius: var(--radius-xl);
+      padding: 1.7rem 1.5rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .registration-box h3 {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+
+    .reg-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .reg-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .reg-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .reg-value {
+      font-weight: 500;
+    }
+
+    .registration-cta {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .registration-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    /* SPONSORS */
+
+    .sponsors-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .sponsors-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      align-items: center;
+    }
+
+    .sponsors-logos img {
+      max-height: 60px;
+      width: auto;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.8));
+    }
+
+    .sponsors-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 24rem;
+    }
+
+    @media (max-width: 720px) {
+      .sponsors-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 1.5rem 0 2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-row a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    /* SMALL ICONS */
+
+    .icon-arrow {
+      display: inline-block;
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="badge">
+              <span class="badge-dot"></span>
+              <span>Focused Workshop • 2026</span>
+            </div>
+
+            <h1>Challenges to Translation in Microfluidics and Organ-on-Chip</h1>
+
+            <p class="hero-subtitle">
+              A one-day workshop bringing together industry, academia and government
+              to confront the real-world barriers to deploying microfluidics and organ-on-chip
+              technologies in clinical and industrial settings.
+            </p>
+
+            <div class="hero-meta">
+              <div class="meta-pill">
+                <div>
+                  <div class="meta-label">Date</div>
+                  <div class="meta-value">27 February 2026</div>
+                </div>
+              </div>
+              <div class="meta-pill">
+                <div>
+                  <div class="meta-label">Venue</div>
+                  <div class="meta-value">Advanced Research Centre, University of Glasgow</div>
+                </div>
+              </div>
+              <div class="meta-pill">
+                <div>
+                  <div class="meta-label">City</div>
+                  <div class="meta-value">Glasgow, UK</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <a href="#registration" class="btn-primary">
+                Register (Free)
+                <span class="icon-arrow">↳</span>
+              </a>
+              <a href="#speakers" class="btn-ghost">
+                View speakers
+              </a>
+            </div>
+
+            <div class="hero-footnote">
+              In-person only • Limited capacity • Targeted at researchers, innovators and policy-makers.
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <div>
+              <h2>Key Focus</h2>
+              <p>
+                We will explore how to take microfluidics and organ-on-chip systems from lab concepts
+                into robust platforms for preclinical testing, diagnostics and drug discovery.
+              </p>
+              <ul class="hero-card-list">
+                <li>
+                  <span class="hero-card-bullet"></span>
+                  <span>Regulatory and standardisation pathways for organ-on-chip devices.</span>
+                </li>
+                <li>
+                  <span class="hero-card-bullet"></span>
+                  <span>Scalability, manufacturability and quality control in microfluidic platforms.</span>
+                </li>
+                <li>
+                  <span class="hero-card-bullet"></span>
+                  <span>Integration with imaging, sensing and data analytics.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="hero-card-footer">
+              <span>Free to attend • Registration required</span>
+              <span class="deadline-pill">Registration deadline: 31 Jan 2026</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ABOUT SECTION -->
+      <section id="about">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">About the workshop</div>
+            <h2 class="section-title">Translating microfluidics and organ-on-chip into impact</h2>
+            <p class="section-lead">
+              The workshop will provide a focused forum to identify scientific, technological and regulatory
+              bottlenecks that currently limit the translation of microfluidic and organ-on-chip systems into
+              real-world applications.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-text">
+              <p>
+                Microfluidic platforms and organ-on-chip models have matured into powerful tools for
+                controlling cellular microenvironments, modelling tissue function and probing drug responses
+                with high spatiotemporal precision. Yet, despite impressive progress at the proof-of-concept level,
+                widespread adoption in industry and healthcare remains challenging.
+              </p>
+              <p>
+                This one-day event will bring together stakeholders from industry, academia and government
+                institutions to discuss practical routes to translation. Sessions will cover design and
+                fabrication strategies compatible with scale-up, integration of sensing and readout modalities,
+                standardisation and validation, and case studies of successful technology deployment.
+              </p>
+              <p>
+                Our goal is to map out concrete opportunities for collaboration and to define
+                shared priorities for the microfluidics and organ-on-chip community in the coming years.
+              </p>
+
+              <div class="about-tags">
+                <span class="chip">Microfluidic platforms</span>
+                <span class="chip">Organ-on-chip models</span>
+                <span class="chip">Regulation &amp; standards</span>
+                <span class="chip">Industrial translation</span>
+                <span class="chip">Preclinical testing</span>
+              </div>
+            </div>
+
+            <aside class="about-card">
+              <h3>Event details</h3>
+              <dl>
+                <dt>Date</dt>
+                <dd>Friday 27 February 2026</dd>
+
+                <dt>Time</dt>
+                <dd>Full-day workshop (exact programme TBC)</dd>
+
+                <dt>Venue</dt>
+                <dd>Advanced Research Centre, University of Glasgow</dd>
+
+                <dt>Address</dt>
+                <dd>11 Chapel Lane, Glasgow G11 6EW, United Kingdom</dd>
+
+                <dt>Format</dt>
+                <dd>In-person talks, panel discussions and networking</dd>
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPEAKERS SECTION -->
+      <section id="speakers">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Speakers</div>
+            <h2 class="section-title">Confirmed keynote &amp; invited speakers</h2>
+            <p class="section-lead">
+              The workshop will feature keynote and invited talks from leading researchers and innovators
+              in microfluidics, organ-on-chip technologies and their translation to real-world applications.
+            </p>
+          </div>
+
+          <div class="speakers-grid">
+            <!-- To add more speakers, copy a speaker-card block and adjust the content. -->
+            <article class="speaker-card">
+              <div class="speaker-tag">Keynote</div>
+              <h3 class="speaker-name">Prof Martin Knight</h3>
+              <p class="speaker-affiliation">Queen Mary University of London</p>
+              <a class="speaker-link" href="https://www.sems.qmul.ac.uk/staff/m.m.knight" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-tag">Keynote</div>
+              <h3 class="speaker-name">Dr Massimo Mastrangeli</h3>
+              <p class="speaker-affiliation">Delft University of Technology</p>
+              <a class="speaker-link" href="https://ectm.tudelft.nl/People/bio.php?id=514" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-tag">Keynote</div>
+              <h3 class="speaker-name">Dr Nan Zhang</h3>
+              <p class="speaker-affiliation">University College Dublin</p>
+              <a class="speaker-link" href="https://people.ucd.ie/nan.zhang/about" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-tag">Invited</div>
+              <h3 class="speaker-name">Prof Matt Dalby</h3>
+              <p class="speaker-affiliation">University of Glasgow</p>
+              <a class="speaker-link" href="https://www.gla.ac.uk/schools/molecularbiosciences/staff/matthewdalby/" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+          </div>
+
+          <p class="speakers-note">
+            Additional speakers and session chairs will be announced as they are confirmed.
+          </p>
+        </div>
+      </section>
+
+      <!-- REGISTRATION SECTION -->
+      <section id="registration" class="registration">
+        <div class="container registration-row">
+          <div>
+            <div class="section-header">
+              <div class="section-kicker">Registration</div>
+              <h2 class="section-title">Free registration (compulsory)</h2>
+              <p class="section-lead">
+                There is no registration fee, but places are limited. To help us manage capacity and ensure a
+                balanced representation of stakeholders, we ask all participants to register in advance.
+              </p>
+            </div>
+          </div>
+
+          <div class="registration-box">
+            <h3>How to join</h3>
+            <div class="reg-grid">
+              <div>
+                <div class="reg-label">Fee</div>
+                <div class="reg-value">Free of charge</div>
+              </div>
+              <div>
+                <div class="reg-label">Registration deadline</div>
+                <div class="reg-value">31 January 2026</div>
+              </div>
+              <div>
+                <div class="reg-label">Who should attend?</div>
+                <div class="reg-value">
+                  Researchers, engineers, clinicians, industrial partners and policy-makers
+                  interested in microfluidics and organ-on-chip.
+                </div>
+              </div>
+              <div>
+                <div class="reg-label">Format</div>
+                <div class="reg-value">
+                  In-person only (no hybrid streaming planned).
+                </div>
+              </div>
+            </div>
+
+            <div class="registration-cta">
+              <a
+                href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyEbj4LColgtMliStYN9O-stUOUtOOEhPVTROVFNCUDBJMkxHMVJCQ0FISS4u"
+                class="btn-primary" target="_blank" rel="noopener">
+                Register now
+                <span class="icon-arrow">➝</span>
+              </a>
+              <span>or contact the organisers if you have specific requirements.</span>
+            </div>
+
+            <p class="registration-note">
+              Please register by <strong>31 January 2026</strong>. We may close registration earlier
+              if the event reaches capacity.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPONSORS SECTION -->
+      <section id="sponsors">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Sponsors</div>
+            <h2 class="section-title">Supported by</h2>
+          </div>
+
+          <div class="sponsors-row">
+            <div class="sponsors-logos">
+              <img src="sponsor1.png" alt="Sponsor 1 logo">
+              <img src="sponsor2.png" alt="Sponsor 2 logo">
+              <img src="sponsor3.png" alt="Sponsor 3 logo">
+            </div>
+            <p class="sponsors-text">
+              This workshop is made possible thanks to the generous support of our sponsors,
+              who are actively engaged in advancing microfluidics, organ-on-chip technologies and
+              their translation into real-world applications.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-row">
+          <span>&copy; 2026 · Challenges to Translation in Microfluidics and Organ-on-Chip · University of Glasgow</span>
+          <span><a href="#top">Back to top ↑</a></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Simple background carousel for the hero using 001.jpg–005.jpg
+    (function () {
+      const hero = document.querySelector(".hero");
+      if (!hero) return;
+
+      const images = ["001.jpg", "002.jpg", "003.jpg", "004.jpg", "005.jpg"];
+      let current = 0;
+
+      function updateBackground() {
+        hero.style.setProperty("--hero-bg-image", "url('" + images[current] + "')");
+        current = (current + 1) % images.length;
+      }
+
+      updateBackground();
+      setInterval(updateBackground, 7000);
+    })();
+  </script>
+</body>
+</html>
