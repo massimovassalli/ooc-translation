@@ -638,31 +638,11 @@
               technologies in clinical and industrial settings.
             </p>
 
-            <div class="hero-meta">
-              <div class="meta-pill">
-                <div>
-                  <div class="meta-label">Date</div>
-                  <div class="meta-value">27 February 2026</div>
-                </div>
-              </div>
-              <div class="meta-pill">
-                <div>
-                  <div class="meta-label">Venue</div>
-                  <div class="meta-value">Advanced Research Centre, University of Glasgow</div>
-                </div>
-              </div>
-              <div class="meta-pill">
-                <div>
-                  <div class="meta-label">City</div>
-                  <div class="meta-value">Glasgow, UK</div>
-                </div>
-              </div>
-            </div>
+            
 
             <div class="hero-actions">
               <a href="#registration" class="btn-primary">
                 Register (Free)
-                <span class="icon-arrow">↳</span>
               </a>
               <a href="#speakers" class="btn-ghost">
                 View speakers
@@ -819,6 +799,16 @@
                 View profile
               </a>
             </article>
+
+            <article class="speaker-card">
+              <div class="speaker-tag">Invited</div>
+              <h3 class="speaker-name">Prof Lourdes Basabe Desmonts</h3>
+              <p class="speaker-affiliation">University of the Basque Country</p>
+              <a class="speaker-link" href="https://www.ehu.eus/en/web/microfluidics/principal-investigators/-/asset_publisher/EyM8/content/lourdes-basabe-desmonts" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
           </div>
 
           <p class="speakers-note">
@@ -925,7 +915,7 @@
       const hero = document.querySelector(".hero");
       if (!hero) return;
 
-      const images = ["001.jpg", "002.jpg", "003.jpg", "004.jpg", "005.jpg"];
+      const images = ["001.jpg", "006.jpg", "002.jpg", "003.jpg", "004.jpg", "005.jpg"];
       let current = 0;
 
       function updateBackground() {
