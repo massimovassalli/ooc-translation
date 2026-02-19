@@ -566,6 +566,7 @@
       flex-wrap: wrap;
       gap: 1.4rem;
       align-items: center;
+      flex: 1 1 100%;
     }
 
     .sponsors-logos img {
@@ -574,10 +575,17 @@
       filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.8));
     }
 
+    .sponsor-logo-light {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 0.35rem 0.6rem;
+      border-radius: 10px;
+    }
+
     .sponsors-text {
       font-size: 0.9rem;
       color: var(--text-muted);
-      max-width: 24rem;
+      max-width: none;
+      flex: 1 1 100%;
     }
 
     @media (max-width: 720px) {
@@ -641,8 +649,11 @@
             
 
             <div class="hero-actions">
-              <a href="#registration" class="btn-primary">
+              <a href="#registration" class="btn-ghost">
                 Register (Free)
+              </a>
+              <a href="ooc-program.pdf" class="btn-primary" target="_blank" rel="noopener">
+                Program download
               </a>
               <a href="#speakers" class="btn-ghost">
                 View speakers
@@ -744,6 +755,9 @@
 
                 <dt>Format</dt>
                 <dd>In-person talks, panel discussions and networking</dd>
+
+                <dt>Programme</dt>
+                <dd><a href="ooc-program.pdf" target="_blank" rel="noopener">Download the programme (PDF)</a></dd>
               </dl>
             </aside>
           </div>
@@ -802,7 +816,7 @@
 
             <article class="speaker-card">
               <div class="speaker-tag">Invited</div>
-              <h3 class="speaker-name">Prof Lourdes Basabe Desmonts</h3>
+              <h3 class="speaker-name">Professor Lourdes Basabe Desmonts</h3>
               <p class="speaker-affiliation">University of the Basque Country</p>
               <a class="speaker-link" href="https://www.ehu.eus/en/web/microfluidics/principal-investigators/-/asset_publisher/EyM8/content/lourdes-basabe-desmonts" target="_blank" rel="noopener">
                 View profile
@@ -818,11 +832,26 @@
               </a>
             </article>
 
+            <article class="speaker-card">
+              <div class="speaker-tag">Invited</div>
+              <h3 class="speaker-name">Prof Nikolaj Gadegaard</h3>
+              <p class="speaker-affiliation">University of Glasgow</p>
+              <a class="speaker-link" href="https://www.gla.ac.uk/schools/engineering/staff/nikolajgadegaard/" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-tag">Invited</div>
+              <h3 class="speaker-name">Dr Sally Peyman</h3>
+              <p class="speaker-affiliation">Heriot-Watt University</p>
+              <a class="speaker-link" href="https://researchportal.hw.ac.uk/en/persons/sally-peyman/" target="_blank" rel="noopener">
+                View profile
+              </a>
+            </article>
+
           </div>
 
-          <p class="speakers-note">
-            Additional speakers and session chairs will be announced as they are confirmed.
-          </p>
         </div>
       </section>
 
@@ -897,6 +926,8 @@
               <img src="sponsor1.png" alt="Sponsor 1 logo">
               <img src="sponsor2.png" alt="Sponsor 2 logo">
               <img src="sponsor3.png" alt="Sponsor 3 logo">
+              <img src="logo01.png" alt="Sponsor 4 logo" class="sponsor-logo-light">
+              <img src="logo02.png" alt="Sponsor 5 logo">
             </div>
             <p class="sponsors-text">
               This workshop is made possible thanks to the generous support of our sponsors,
